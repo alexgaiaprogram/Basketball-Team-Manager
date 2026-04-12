@@ -418,7 +418,15 @@ select {
 
 </head>
 <body>
-
+    
+<script>
+auth.onAuthStateChanged(user => {
+    if (!user) {
+        window.location.href = "login.html";
+    }
+});
+</script>
+   
 <div id="header" style="text-align:center; padding:20px 0; margin-bottom:20px;">
     <img src="photo.jpg" alt="Logo Penya Roja" style="height:120px; margin-bottom:10px;">
     <h1 style="margin:0; font-size:28px; color:#0d47a1; font-weight:900;">
