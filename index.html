@@ -672,10 +672,11 @@ function agregarFilaPlantilla(numero = "", nombre = "") {
     tbody.appendChild(fila);
 }
 
-function guardarPlantillaModal() {
+async function guardarPlantillaModal() {
     const filas = document.querySelectorAll("#plantillaBody tr");
     let nuevaPlantilla = [];
 
+    // Construir array de jugadoras
     for (let f of filas) {
         const numero = f.querySelector(".numInput").value.trim();
         const nombre = f.querySelector(".nameInput").value.trim().toUpperCase();
@@ -693,21 +694,42 @@ function guardarPlantillaModal() {
         nuevaPlantilla.push({ numero, nombre });
     }
 
+    // Comprobar dorsales duplicados
     const dorsales = nuevaPlantilla.map(j => j.numero);
     if (new Set(dorsales).size !== dorsales.length) {
         alert("No puede haber dorsales duplicados.");
         return;
     }
 
+    const uid = auth.currentUser.uid;
+
+    // CREAR NUEVO EQUIPO
     if (modoModal === "crear") {
         const nombreEquipo = prompt("Nombre del nuevo equipo:");
         if (!nombreEquipo) return;
+
+        // Guardar en memoria
         teamDB[nombreEquipo] = nuevaPlantilla;
+
+        // Guardar en Firestore
+        await db.collection("users")
+                .doc(uid)
+                .collection("teams")
+                .doc(nombreEquipo)
+                .set({ jugadoras: nuevaPlantilla });
+
+    // EDITAR EQUIPO EXISTENTE
     } else if (modoModal === "editar") {
+
         teamDB[equipoEditando] = nuevaPlantilla;
+
+        await db.collection("users")
+                .doc(uid)
+                .collection("teams")
+                .doc(equipoEditando)
+                .set({ jugadoras: nuevaPlantilla });
     }
 
-    localStorage.setItem("teamDB", JSON.stringify(teamDB));
     actualizarDropdown();
     cerrarModalPlantilla();
     alert("Plantilla guardada correctamente.");
