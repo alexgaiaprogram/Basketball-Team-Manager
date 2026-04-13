@@ -711,10 +711,8 @@ async function guardarPlantillaModal() {
         const nombreEquipo = prompt("Nombre del nuevo equipo:");
         if (!nombreEquipo) return;
 
-        // Guardar en memoria
         teamDB[nombreEquipo] = nuevaPlantilla;
 
-        // Guardar en Firestore
         await db.collection("users")
                 .doc(uid)
                 .collection("teams")
