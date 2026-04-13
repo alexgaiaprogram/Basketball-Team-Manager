@@ -518,6 +518,10 @@ select {
 
   const auth = firebase.auth();
   const db = firebase.firestore();
+    // Base de datos principal
+let teamDB = {};
+let historyDB = JSON.parse(localStorage.getItem("match_history")) || {};
+let globalPlan = [];
 </script>
 
 <script>
@@ -552,11 +556,6 @@ window.onerror = function (msg, url, line, col, error) {
 </script>
 
  <script>   
-// Base de datos principal
-let teamDB = {};
-let historyDB = JSON.parse(localStorage.getItem("match_history")) || {};
-let globalPlan = [];
-
 // -----------------------------
 // SELECTOR DE EQUIPOS / PLANTILLA
 // -----------------------------
