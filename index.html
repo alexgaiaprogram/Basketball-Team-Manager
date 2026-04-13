@@ -533,19 +533,23 @@ auth.onAuthStateChanged(async user => {
 
     const uid = user.uid;
 
-    // Cargar plantillas desde Firestore
-    const snapshot = await db.collection("users")
-                             .doc(uid)
-                             .collection("teams")
-                             .get();
+    try {
+        const snapshot = await db.collection("users")
+                                 .doc(uid)
+                                 .collection("teams")
+                                 .get();
 
-    teamDB = {}; // limpiar
+        teamDB = {}; // limpiar antes de cargar
 
-    snapshot.forEach(doc => {
-        teamDB[doc.id] = doc.data().jugadoras;
-    });
+        snapshot.forEach(doc => {
+            teamDB[doc.id] = doc.data().jugadoras;
+        });
 
-    actualizarDropdown();
+        actualizarDropdown();
+
+    } catch (error) {
+        alert("Error cargando plantillas: " + error.message);
+    }
 });
 </script>
     
