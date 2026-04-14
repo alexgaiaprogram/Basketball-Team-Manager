@@ -521,6 +521,8 @@ select {
 </script>
 
 <script>
+  localStorage.removeItem("teamDB");
+  
     // Base de datos principal
 let teamDB = {};
 let historyDB = JSON.parse(localStorage.getItem("match_history")) || {};
