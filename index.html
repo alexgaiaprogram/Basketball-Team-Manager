@@ -520,9 +520,7 @@ select {
   const db = firebase.firestore();
 </script>
 
-<script>
-  localStorage.removeItem("teamDB");
-  
+<script> 
     // Base de datos principal
 let teamDB = {};
 let historyDB = JSON.parse(localStorage.getItem("match_history")) || {};
