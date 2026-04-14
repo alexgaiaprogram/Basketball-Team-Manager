@@ -742,7 +742,32 @@ async function guardarPlantillaModal() {
     cerrarModalPlantilla();
     alert("Plantilla guardada correctamente.");
 }
+     
+async function borrarEquipo() {
+    if (!equipoEditando) return;
 
+    const confirmar = confirm(`¿Seguro que quieres borrar el equipo "${equipoEditando}"?`);
+    if (!confirmar) return;
+
+    const uid = auth.currentUser.uid;
+
+    try {
+        await db.collection("users")
+                .doc(uid)
+                .collection("teams")
+                .doc(equipoEditando)
+                .delete();
+
+        delete teamDB[equipoEditando];
+
+        actualizarDropdown();
+        cerrarModalPlantilla();
+        alert("Equipo borrado correctamente.");
+    } catch (error) {
+        alert("Error borrando equipo: " + error.message);
+    }
+     }
+            
 // -----------------------------
 // CONVOCATORIA / CONTADORES
 // -----------------------------
