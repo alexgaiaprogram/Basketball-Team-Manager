@@ -645,15 +645,25 @@ function abrirModalPlantilla(modo, equipo = "") {
 
     tbody.innerHTML = "";
 
+    // 🔥 Mostrar / ocultar botón BORRAR según modo
+    const btnBorrar = document.getElementById("btnBorrarEquipo");
+    if (modo === "editar") {
+        btnBorrar.style.display = "inline-block";
+    } else {
+        btnBorrar.style.display = "none";
+    }
+
     if (modo === "crear") {
         titulo.innerText = "Crear nueva plantilla";
         plantillaTemporal = [];
         agregarFilaPlantilla();
+
     } else if (modo === "editar") {
         if (!equipo || !teamDB[equipo]) {
             alert("No se ha podido cargar la plantilla de ese equipo.");
             return;
         }
+
         titulo.innerText = `Editar plantilla: ${equipo}`;
         plantillaTemporal = [...teamDB[equipo]];
 
