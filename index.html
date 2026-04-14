@@ -650,12 +650,13 @@ function abrirModalPlantilla(modo, equipo = "") {
     tbody.innerHTML = "";
 
     // 🔥 Mostrar / ocultar botón BORRAR según modo
-    const btnBorrar = document.getElementById("btnBorrarEquipo");
-    if (modo === "editar") {
-        btnBorrar.style.display = "inline-block";
-    } else {
-        btnBorrar.style.display = "none";
-    }
+    const btnBorrar = document.querySelector('.btn-delete');
+if (modo === "editar") {
+    btnBorrar.style.display = "inline-block";
+} else {
+    btnBorrar.style.display = "none";
+}
+
 
     if (modo === "crear") {
         titulo.innerText = "Crear nueva plantilla";
