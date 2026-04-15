@@ -592,15 +592,12 @@ function actualizarDropdown() {
 
     // 🔥 Desactivar botón EDITAR si no hay equipo seleccionado
     const btnEditar = document.querySelector('.btn-plantilla:nth-of-type(2)');
-    if (btnEditar) {
-        btnEditar.disabled = (select.value === "");
-    }
+    if (btnEditar) btnEditar.disabled = (select.value === "");
 
     if (typeof actualizarHistorialDropdown === "function") {
         actualizarHistorialDropdown();
     }
 }
-
 function cargarPlantilla() {
     document.body.classList.remove("modo-historico");
     
