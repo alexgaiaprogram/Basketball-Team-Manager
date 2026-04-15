@@ -759,17 +759,26 @@ async function guardarPlantillaModal() {
     const uid = auth.currentUser.uid;
 
     // CREAR NUEVO EQUIPO
-    if (modoModal === "crear") {
-        const nombreEquipo = prompt("Nombre del nuevo equipo:");
-        if (!nombreEquipo) return;
+if (modoModal === "crear") {
+    const nombreEquipo = prompt("Nombre del nuevo equipo:");
+    if (!nombreEquipo) return;
 
-        teamDB[nombreEquipo] = nuevaPlantilla;
+    // 🔥 Comprobar si ya existe un equipo con ese nombre
+    if (teamDB[nombreEquipo]) {
+        const sobreescribir = confirm(
+            `Ya existe un equipo llamado "${nombreEquipo}".\n\n` +
+            `¿Quieres sobrescribir su plantilla?`
+        );
+        if (!sobreescribir) return;
+    }
 
-        await db.collection("users")
-                .doc(uid)
-                .collection("teams")
-                .doc(nombreEquipo)
-                .set({ jugadoras: nuevaPlantilla });
+    teamDB[nombreEquipo] = nuevaPlantilla;
+
+    await db.collection("users")
+            .doc(uid)
+            .collection("teams")
+            .doc(nombreEquipo)
+            .set({ jugadoras: nuevaPlantilla });
 
     // EDITAR EQUIPO EXISTENTE
     } else if (modoModal === "editar") {
