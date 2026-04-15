@@ -443,7 +443,10 @@ select {
         <select id="teamSelect" onchange="cargarPlantilla()"></select>
 
         <button class="btn btn-plantilla" onclick="abrirModalPlantilla('crear')">➕ Crear plantilla</button>
-        <button class="btn btn-plantilla" onclick="abrirModalPlantilla('editar', document.getElementById('teamSelect').value)">✏️ Modificar plantilla</button>
+        <button class="btn btn-plantilla" 
+        onclick="if (teamSelect.value) abrirModalPlantilla('editar', teamSelect.value); else alert('Selecciona un equipo primero');">
+    ✏️ Modificar plantilla
+        </button>
     </div>
 
     <div id="selectorZona" style="display:none;" class="section">
