@@ -616,18 +616,17 @@ function cargarPlantilla() {
         document.getElementById('resultado').innerHTML = "";
         contar();
 
-        // 🔥 Sin equipo seleccionado → desactivar botón EDITAR
+        // 🔥 Desactivar botón EDITAR si no hay equipo
         if (btnEditar) btnEditar.disabled = true;
 
         return;
     }
 
-    const plantilla = teamDB[team]; // [{numero, nombre}, ...]
+    const plantilla = teamDB[team];
     let html = '';
 
     plantilla.forEach((j, i) => {
         const etiqueta = `${j.numero} ${j.nombre.toUpperCase()}`;
-
         html += `
         <div class="player-item">
             <span>${etiqueta}</span>
@@ -643,9 +642,10 @@ function cargarPlantilla() {
     document.getElementById('resultado').innerHTML = "";
     contar();
 
-    // 🔥 Con equipo cargado → activar botón EDITAR
+    // 🔥 Activar botón EDITAR cuando hay equipo seleccionado
     if (btnEditar) btnEditar.disabled = false;
 }
+
 // -----------------------------
 // MODAL CREAR / EDITAR PLANTILLA
 // -----------------------------
