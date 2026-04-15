@@ -589,7 +589,10 @@ function actualizarDropdown() {
         opt.innerText = name;
         select.appendChild(opt);
     });
-
+// 🔥 Desactivar botón EDITAR si no hay equipo seleccionado
+const btnEditar = document.querySelector('.btn-plantilla:nth-of-type(2)');
+btnEditar.disabled = (select.value === "");
+    
     if (typeof actualizarHistorialDropdown === "function") {
         actualizarHistorialDropdown();
     }
