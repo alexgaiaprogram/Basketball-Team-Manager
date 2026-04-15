@@ -646,6 +646,13 @@ let equipoEditando = "";
 let plantillaTemporal = [];
 
 function abrirModalPlantilla(modo, equipo = "") {
+
+    // 🔥 Protección: evitar abrir en modo EDITAR sin equipo seleccionado
+    if (modo === "editar" && !equipo) {
+        alert("Selecciona un equipo antes de editar.");
+        return;
+    }
+
     modoModal = modo;
     equipoEditando = equipo;
 
@@ -653,24 +660,31 @@ function abrirModalPlantilla(modo, equipo = "") {
     const titulo = document.getElementById("modalTitulo");
     const tbody = document.getElementById("plantillaBody");
 
+    // Limpiar tabla del modal
     tbody.innerHTML = "";
 
     // 🔥 Mostrar / ocultar botón BORRAR según modo
     const btnBorrar = document.querySelector('.btn-delete');
-if (modo === "editar") {
-    btnBorrar.style.display = "inline-block";
-} else {
-    btnBorrar.style.display = "none";
-}
+    if (modo === "editar") {
+        btnBorrar.style.display = "inline-block";
+    } else {
+        btnBorrar.style.display = "none";
+    }
 
-
+    // -----------------------------
+    // MODO CREAR
+    // -----------------------------
     if (modo === "crear") {
         titulo.innerText = "Crear nueva plantilla";
         plantillaTemporal = [];
-        agregarFilaPlantilla();
+        agregarFilaPlantilla(); // primera fila vacía
 
+    // -----------------------------
+    // MODO EDITAR
+    // -----------------------------
     } else if (modo === "editar") {
-        if (!equipo || !teamDB[equipo]) {
+
+        if (!teamDB[equipo]) {
             alert("No se ha podido cargar la plantilla de ese equipo.");
             return;
         }
@@ -678,11 +692,13 @@ if (modo === "editar") {
         titulo.innerText = `Editar plantilla: ${equipo}`;
         plantillaTemporal = [...teamDB[equipo]];
 
+        // Rellenar filas con jugadoras existentes
         plantillaTemporal.forEach(j => {
             agregarFilaPlantilla(j.numero, j.nombre);
         });
     }
 
+    // Mostrar modal
     modal.style.display = "flex";
 }
 
