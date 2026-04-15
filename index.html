@@ -597,13 +597,13 @@ btnEditar.disabled = (select.value === "");
         actualizarHistorialDropdown();
     }
 }
-
 function cargarPlantilla() {
     document.body.classList.remove("modo-historico");
     
     const team = document.getElementById('teamSelect').value;
     const zona = document.getElementById('selectorZona');
     const cont = document.getElementById('checkboxes');
+    const btnEditar = document.querySelector('.btn-plantilla:nth-of-type(2)');
 
     if (!team || !teamDB[team]) {
         if (zona) zona.style.display = 'none';
@@ -611,6 +611,10 @@ function cargarPlantilla() {
         globalPlan = [];
         document.getElementById('resultado').innerHTML = "";
         contar();
+
+        // 🔥 Sin equipo seleccionado → desactivar botón EDITAR
+        if (btnEditar) btnEditar.disabled = true;
+
         return;
     }
 
@@ -618,8 +622,6 @@ function cargarPlantilla() {
     let html = '';
 
     plantilla.forEach((j, i) => {
-
-        // 🔥 M15: convertir el nombre a MAYÚSCULAS aquí
         const etiqueta = `${j.numero} ${j.nombre.toUpperCase()}`;
 
         html += `
@@ -636,8 +638,10 @@ function cargarPlantilla() {
     globalPlan = [];
     document.getElementById('resultado').innerHTML = "";
     contar();
-}
 
+    // 🔥 Con equipo cargado → activar botón EDITAR
+    if (btnEditar) btnEditar.disabled = false;
+}
 // -----------------------------
 // MODAL CREAR / EDITAR PLANTILLA
 // -----------------------------
