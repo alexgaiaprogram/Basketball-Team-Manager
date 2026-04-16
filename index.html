@@ -763,30 +763,65 @@ async function guardarPlantillaModal() {
 
     const uid = auth.currentUser.uid;
 
-    // CREAR NUEVO EQUIPO
-if (modoModal === "crear") {
-    const nombreEquipo = prompt("Nombre del nuevo equipo:");
-    if (!nombreEquipo) return;
+    // ---------------------------------------------------------
+    // 🔵 CREAR NUEVO EQUIPO
+    // ---------------------------------------------------------
+    if (modoModal === "crear") {
 
-    // 🔥 Comprobar si ya existe un equipo con ese nombre
-    if (teamDB[nombreEquipo]) {
-        const sobreescribir = confirm(
-            `Ya existe un equipo llamado "${nombreEquipo}".\n\n` +
-            `¿Quieres sobrescribir su plantilla?`
-        );
-        if (!sobreescribir) return;
+        let nombreEquipo = prompt("Nombre del nuevo equipo:");
+        if (!nombreEquipo) return;
+
+        const nombreOriginal = nombreEquipo; // Para mostrar al usuario
+
+        // 🔥 Normalizar nombre para Firebase (evita errores con / # ? [ ])
+        nombreEquipo = nombreEquipo
+            .replace(/\//g, "_")
+            .replace(/#/g, "_")
+            .replace(/\?/g, "_")
+            .replace(/
+
+\[/g, "_")
+            .replace(/\]
+
+/g, "_");
+
+        // 🔥 Comprobar si ya existe un equipo con ese nombre normalizado
+        if (teamDB[nombreEquipo]) {
+            const sobreescribir = confirm(
+                `Ya existe un equipo llamado "${nombreOriginal}".\n\n` +
+                `¿Quieres sobrescribir su plantilla?`
+            );
+            if (!sobreescribir) {
+                alert("No se ha guardado la plantilla porque ya existe un equipo con ese nombre.");
+                return;
+            }
+        }
+
+        // Guardar en memoria local
+        teamDB[nombreEquipo] = nuevaPlantilla;
+
+        // Guardar en Firebase
+        await db.collection("users")
+                .doc(uid)
+                .collection("teams")
+                .doc(nombreEquipo)
+                .set({ 
+                    nombreVisible: nombreOriginal, // opcional, útil para futuro
+                    jugadoras: nuevaPlantilla 
+                });
+
+        actualizarDropdown();
+        document.getElementById("teamSelect").value = nombreEquipo;
+        cargarPlantilla();
+        cerrarModalPlantilla();
+        alert("Plantilla guardada correctamente.");
+        return;
     }
 
-    teamDB[nombreEquipo] = nuevaPlantilla;
-
-    await db.collection("users")
-            .doc(uid)
-            .collection("teams")
-            .doc(nombreEquipo)
-            .set({ jugadoras: nuevaPlantilla });
-
-    // EDITAR EQUIPO EXISTENTE
-    } else if (modoModal === "editar") {
+    // ---------------------------------------------------------
+    // 🔵 EDITAR EQUIPO EXISTENTE
+    // ---------------------------------------------------------
+    if (modoModal === "editar") {
 
         teamDB[equipoEditando] = nuevaPlantilla;
 
@@ -795,13 +830,13 @@ if (modoModal === "crear") {
                 .collection("teams")
                 .doc(equipoEditando)
                 .set({ jugadoras: nuevaPlantilla });
-    }
 
-    actualizarDropdown();
-    cerrarModalPlantilla();
-    alert("Plantilla guardada correctamente.");
+        actualizarDropdown();
+        cerrarModalPlantilla();
+        alert("Plantilla guardada correctamente.");
+    }
 }
-     
+
 async function borrarEquipo() {
     if (!equipoEditando) return;
 
