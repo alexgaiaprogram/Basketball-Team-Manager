@@ -774,17 +774,7 @@ async function guardarPlantillaModal() {
         const nombreOriginal = nombreEquipo; // Para mostrar al usuario
 
         // 🔥 Normalizar nombre para Firebase (evita errores con / # ? [ ])
-        nombreEquipo = nombreEquipo
-            .replace(/\//g, "_")
-            .replace(/#/g, "_")
-            .replace(/\?/g, "_")
-            .replace(/
-
-\[/g, "_")
-            .replace(/\]
-
-/g, "_");
-
+        nombreEquipo = nombreEquipo.replace(/\//g,"_").replace(/#/g,"_").replace(/\?/g,"_").replace(/\[/g,"_").replace(/\]/g,"_");
         // 🔥 Comprobar si ya existe un equipo con ese nombre normalizado
         if (teamDB[nombreEquipo]) {
             const sobreescribir = confirm(
