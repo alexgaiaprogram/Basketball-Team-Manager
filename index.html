@@ -638,6 +638,20 @@ function cargarPlantilla() {
 }
 
 // -----------------------------
+// LISTAR EQUIPOS FIREBASE
+// -----------------------------
+async function listarEquiposFirebase() {
+    const uid = auth.currentUser.uid;
+    const snapshot = await db.collection("users")
+                             .doc(uid)
+                             .collection("teams")
+                             .get();
+
+    console.log("Equipos en Firebase:");
+    snapshot.forEach(doc => console.log(" - " + doc.id));
+}
+     
+// -----------------------------
 // MODAL CREAR / EDITAR PLANTILLA
 // -----------------------------
 let modoModal = "";
