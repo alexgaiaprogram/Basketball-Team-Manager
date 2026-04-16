@@ -450,12 +450,7 @@ select {
                      alert('Selecciona un equipo primero'); 
                  }">
     ✏️ Modificar plantilla
-</button>
-
-<button onclick="limpiarLocalStorage()" style="padding:10px; margin:10px;">
-    🧹 Limpiar datos antiguos
-</button>
-        
+</button>        
     </div>
 
     <div id="selectorZona" style="display:none;" class="section">
@@ -521,16 +516,7 @@ select {
     </h3>
     <ul id="focusList"></ul>
     <p style="font-size: 10px; opacity: 0.8;">(Toca para cerrar)</p>
-</div>
-    
- <script>   
-function limpiarLocalStorage() {
-    localStorage.removeItem("teamDB");
-    localStorage.removeItem("teams");
-    localStorage.removeItem("equipos");
-    alert("LocalStorage limpiado correctamente.");
-}
-   </script> 
+</div> 
     
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
