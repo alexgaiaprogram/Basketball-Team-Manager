@@ -596,10 +596,6 @@ function actualizarDropdown() {
         select.appendChild(opt);
     });
 
-    // 🔥 Desactivar botón EDITAR si no hay equipo seleccionado
-    const btnEditar = document.querySelector('.btn-plantilla:nth-of-type(2)');
-    if (btnEditar) btnEditar.disabled = (select.value === "");
-
     if (typeof actualizarHistorialDropdown === "function") {
         actualizarHistorialDropdown();
     }
@@ -618,9 +614,6 @@ function cargarPlantilla() {
         globalPlan = [];
         document.getElementById('resultado').innerHTML = "";
         contar();
-
-        // 🔥 Desactivar botón EDITAR si no hay equipo
-        if (btnEditar) btnEditar.disabled = true;
 
         return;
     }
@@ -644,9 +637,6 @@ function cargarPlantilla() {
     globalPlan = [];
     document.getElementById('resultado').innerHTML = "";
     contar();
-
-    // 🔥 Activar botón EDITAR cuando hay equipo seleccionado
-    if (btnEditar) btnEditar.disabled = false;
 }
 
 // -----------------------------
