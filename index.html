@@ -1331,10 +1331,12 @@ function resetCompleto() {
 // -----------------------------
 // GENERAR PLAN AUTOMÁTICO
 // -----------------------------
+// -----------------------------
+// GENERAR PLAN AUTOMÁTICO
+// -----------------------------
 function generarPlan() {
-document.body.classList.remove("modo-historico");
+    document.body.classList.remove("modo-historico");
 
-    
     if (globalPlan && globalPlan.length > 0) {
         alert(
             "Ya existe un plan generado.\n\n" +
@@ -1351,6 +1353,21 @@ document.body.classList.remove("modo-historico");
     }
 
     const plantilla = teamDB[team];
+
+    // 🔥 M19 — Validar que hay una capitana seleccionada
+    let capitana = null;
+    plantilla.forEach((j, i) => {
+        const icono = document.getElementById(`cap${i}`);
+        if (icono && icono.classList.contains('activa')) {
+            capitana = j.numero;
+        }
+    });
+
+    if (!capitana) {
+        alert("Debes seleccionar una capitana antes de generar el plan.");
+        return;
+    }
+
     let players = [];
 
     plantilla.forEach((j, i) => {
@@ -1366,7 +1383,8 @@ document.body.classList.remove("modo-historico");
                 lesionadaDesde: null,
                 plan: ['-', '-', '-', '-', '-', '-'],
                 jugados: 0,
-                racha: 0
+                racha: 0,
+                capitana: (j.numero === capitana) // 🔥 M19: marcar capitana en el plan
             });
         }
     });
@@ -1408,7 +1426,6 @@ document.body.classList.remove("modo-historico");
     globalPlan = players;
     render(players);
 }
-
 // -----------------------------
 // RENDER TABLA
 // -----------------------------
