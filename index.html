@@ -1311,6 +1311,11 @@ function reiniciarConfiguracion() {
         }
     });
 
+    // 🔥 M19 — limpiar capitana
+    document.querySelectorAll('.cap-icon').forEach(icon => {
+        icon.classList.remove('activa');
+    });
+
     document.getElementById('resultado').innerHTML = "";
     if (document.getElementById('focusCard'))
         document.getElementById('focusCard').style.display = 'none';
@@ -1319,10 +1324,11 @@ function reiniciarConfiguracion() {
     contar();
     alert("🧹 Configuración reiniciada.");
 }
-    
+
+
 // -----------------------------
 // RESET COMPLETO 
-// ----------------------------
+// -----------------------------
 function resetCompleto() {
     // Quitar modo histórico
     document.body.classList.remove("modo-historico");
@@ -1344,6 +1350,11 @@ function resetCompleto() {
     const cont = document.getElementById('checkboxes');
     if (cont) cont.innerHTML = "";
 
+    // 🔥 M19 — limpiar capitana
+    document.querySelectorAll('.cap-icon').forEach(icon => {
+        icon.classList.remove('activa');
+    });
+
     // Vaciar resultado (tabla)
     document.getElementById('resultado').innerHTML = "";
 
@@ -1359,9 +1370,6 @@ function resetCompleto() {
     if (focus) focus.style.display = 'none';
 }
 
-// -----------------------------
-// GENERAR PLAN AUTOMÁTICO
-// -----------------------------
 // -----------------------------
 // GENERAR PLAN AUTOMÁTICO
 // -----------------------------
