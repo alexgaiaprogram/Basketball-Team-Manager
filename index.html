@@ -1552,7 +1552,6 @@ function toggleCelda(nombre, periodo) {
     // REPINTAR TABLA
     render(globalPlan);
 }
-    
 // -----------------------------
 // REAJUSTAR PLAN
 // -----------------------------
@@ -1566,6 +1565,7 @@ function reajustarPlan() {
     const plantilla = teamDB[team];
     let players = [];
 
+    // 1) Crear estructura base de players (SIN capitana todavía)
     plantilla.forEach((j, i) => {
         const viene = document.getElementById(`v${i}`).checked;
         const titular = document.getElementById(`t${i}`).checked;
@@ -1579,8 +1579,8 @@ function reajustarPlan() {
                 lesionadaDesde: null,
                 plan: ['-', '-', '-', '-', '-', '-'],
                 jugados: 0,
-                racha: 0
-                capitana: p.capitana
+                racha: 0,
+                capitana: false   // 🔥 Se rellenará después
             });
         }
     });
@@ -1590,22 +1590,26 @@ function reajustarPlan() {
         return;
     }
 
+    // 2) Recuperar datos del plan anterior (incluye CAPITANA)
     if (globalPlan && globalPlan.length > 0) {
         players.forEach(p => {
             const old = globalPlan.find(x => x.name === p.name);
             if (old) {
                 p.lesionada = old.lesionada;
                 p.lesionadaDesde = old.lesionadaDesde;
+                p.capitana = old.capitana;   // 🔥 AQUÍ SE COPIA LA CAPITANA
             }
         });
     }
 
+    // 3) Validar titulares
     const titulares = players.filter(p => p.titular);
     if (titulares.length !== 5) {
         alert("⚠️ Error: Debes tener exactamente 5 titulares.");
         return;
     }
 
+    // 4) Asignar P1
     titulares.forEach(p => {
         p.plan[0] = 'X';
         p.jugados = 1;
@@ -1614,6 +1618,7 @@ function reajustarPlan() {
 
     players.filter(p => !p.titular).forEach(p => p.racha = 1);
 
+    // 5) Resto de periodos
     for (let i = 1; i < 6; i++) {
         players.sort((a, b) => (a.jugados - b.jugados) || (b.racha - a.racha));
 
