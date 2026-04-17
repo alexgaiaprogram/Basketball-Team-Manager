@@ -913,6 +913,12 @@ function toggleConv(i) {
         t.disabled = false;
     }
     contar();
+// Si deja de venir → no puede ser capitana
+if (!v.checked) {
+    const icono = document.getElementById(`cap${i}`);
+    icono.classList.remove('activa');
+}
+    
 }
 
 function normalizarSiNo(resp) {
