@@ -623,13 +623,13 @@ function actualizarDropdown() {
         actualizarHistorialDropdown();
     }
 }
+     
 function cargarPlantilla() {
     document.body.classList.remove("modo-historico");
     
     const team = document.getElementById('teamSelect').value;
     const zona = document.getElementById('selectorZona');
     const cont = document.getElementById('checkboxes');
-    const btnEditar = document.querySelector('.btn-plantilla:nth-of-type(2)');
 
     if (!team || !teamDB[team]) {
         if (zona) zona.style.display = 'none';
@@ -637,7 +637,6 @@ function cargarPlantilla() {
         globalPlan = [];
         document.getElementById('resultado').innerHTML = "";
         contar();
-
         return;
     }
 
@@ -648,10 +647,8 @@ function cargarPlantilla() {
         const etiqueta = `${j.numero} ${j.nombre.toUpperCase()}`;
         html += `
         <div class="player-item">
-            <span>
-    <span class="cap-icon" id="cap${i}" onclick="marcarCapitana(${i})">C</span>
-    ${etiqueta}  </span>
-
+            <span class="cap-icon" id="cap${i}" onclick="marcarCapitana(${i})">CAPI</span>
+            <span>${etiqueta}</span>
             <input type="checkbox" id="v${i}" checked onclick="toggleConv(${i})">
             <input type="checkbox" id="t${i}" class="t-cb" onclick="contar()">
             <input type="checkbox" id="l${i}" class="l-cb" onclick="marcarLesionada(${i})" title="Lesionada">
@@ -664,7 +661,6 @@ function cargarPlantilla() {
     document.getElementById('resultado').innerHTML = "";
     contar();
 }
-
 // -----------------------------
 // LISTAR EQUIPOS FIREBASE
 // -----------------------------
