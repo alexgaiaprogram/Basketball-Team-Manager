@@ -1707,6 +1707,24 @@ window.validarPlan = function validarPlan() {
     let errores = [];
     let avisos = [];
 
+    // 🔥 VALIDACIÓN CAPITANA
+    const cap = globalPlan.find(j => j.capitana === true);
+
+    if (!cap) {
+        errores.push("No hay ninguna capitana seleccionada en el plan.");
+    } else {
+        const juega = cap.plan.filter(v => v === 'X').length;
+
+        if (juega === 0) {
+            avisos.push(`La capitana (${cap.name}) no juega ningún periodo.`);
+        }
+
+        if (cap.lesionada && cap.lesionadaDesde === 0) {
+            avisos.push(`La capitana (${cap.name}) está lesionada desde antes del partido.`);
+        }
+    }
+
+    // VALIDACIÓN DE PERIODOS
     for (let p = 0; p < 6; p++) {
         const enPista = globalPlan.filter(j => j.plan[p] === 'X').length;
         if (enPista !== 5) {
