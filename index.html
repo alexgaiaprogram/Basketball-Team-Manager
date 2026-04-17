@@ -1448,14 +1448,18 @@ function render(lista) {
         // 🔥 M15: nombre en mayúsculas
         const nombreMayus = p.name.toUpperCase();
 
+        // 🔥 M19: icono de capitana
+        let iconoCapitana = "";
+        if (p.capitana) iconoCapitana = " ©";
+
         let iconoLesion = "";
         if (p.lesionada && p.lesionadaDesde != null) {
             let parte = p.lesionadaDesde + 1;
             iconoLesion = ` <span title="Lesionada desde P${parte}">🩹</span>`;
         }
 
-        // 🔥 M15 aplicado aquí
-        h += `<tr><td style="text-align:left">${nombreMayus}${iconoLesion}</td>`;
+        // 🔥 M15 + M19 aplicados aquí
+        h += `<tr><td style="text-align:left">${nombreMayus}${iconoCapitana}${iconoLesion}</td>`;
 
         p.plan.forEach((per, idx) => {
             let clase = "";
@@ -1491,7 +1495,7 @@ function render(lista) {
     document.getElementById('resultado').innerHTML =
         `<div id="banner-historico" style="margin-bottom:10px;"></div>` +
         h;
-    }
+}
 
 // -----------------------------
 // VER PERIODO (FOCUS CARD)
