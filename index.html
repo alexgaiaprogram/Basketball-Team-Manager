@@ -922,7 +922,14 @@ function normalizarSiNo(resp) {
     if (resp === "no" || resp === "n" || resp === "0") return "no";
     return null;
 }
+function marcarCapitana(i) {
+    // Desmarcar todas
+    document.querySelectorAll('.cap-icon').forEach(c => c.classList.remove('activa'));
 
+    // Marcar solo la seleccionada
+    const icono = document.getElementById(`cap${i}`);
+    icono.classList.add('activa');
+}    
 // -----------------------------
 // LESIONES
 // -----------------------------
