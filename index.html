@@ -1101,6 +1101,15 @@ function guardarPartido() {
         if (document.getElementById(`l${i}`)?.checked) lesionadas.push(j.numero);
     });
 
+    // 🔥 M19 — Obtener CAPITANA
+    let capitana = null;
+    plantilla.forEach((j, i) => {
+        const icono = document.getElementById(`cap${i}`);
+        if (icono && icono.classList.contains('activa')) {
+            capitana = j.numero;
+        }
+    });
+
     // Guardar TODO el partido
     historyDB[key] = {
         rival,
@@ -1109,7 +1118,8 @@ function guardarPartido() {
         plan: globalPlan,
         convocadas,
         titulares,
-        lesionadas
+        lesionadas,
+        capitana   // 🔥 M19 añadido aquí
     };
 
     localStorage.setItem('match_history', JSON.stringify(historyDB));
