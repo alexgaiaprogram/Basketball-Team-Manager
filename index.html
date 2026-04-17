@@ -770,6 +770,8 @@ async function guardarPlantillaModal() {
 
         let nombreEquipo = prompt("Nombre del nuevo equipo:");
         if (!nombreEquipo) return;
+        // 🔥 Eliminar espacios al principio y al final
+        nombreEquipo = nombreEquipo.trim();
 
         const nombreOriginal = nombreEquipo; // Para mostrar al usuario
 
