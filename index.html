@@ -1181,10 +1181,8 @@ function cargarPartidoGuardado() {
     const data = historyDB[key];
     if (!data) return;
 
-    // Activar modo histórico
     document.body.classList.add("modo-historico");
 
-    // 1. Reconstruir plantilla
     const teamSelect = document.getElementById('teamSelect');
     teamSelect.value = "";
 
@@ -1192,6 +1190,7 @@ function cargarPartidoGuardado() {
     const zona = document.getElementById('selectorZona');
 
     let html = "";
+
     data.plantilla.forEach((j, i) => {
 
         const viene = data.convocadas.includes(j.numero);
@@ -1200,10 +1199,8 @@ function cargarPartidoGuardado() {
 
         html += `
         <div class="player-item">
-            <span>
-                <span class="cap-icon" id="cap${i}">C</span>
-                ${j.numero} ${j.nombre.toUpperCase()}
-            </span>
+            <span class="cap-icon" id="cap${i}">CAPI</span>
+            <span>${j.numero} ${j.nombre.toUpperCase()}</span>
             <input type="checkbox" id="v${i}" ${viene ? "checked" : ""}>
             <input type="checkbox" id="t${i}" class="t-cb" ${titular ? "checked" : ""}>
             <input type="checkbox" id="l${i}" class="l-cb" ${lesionada ? "checked" : ""}>
@@ -1213,7 +1210,7 @@ function cargarPartidoGuardado() {
     cont.innerHTML = html;
     zona.style.display = "block";
 
-    // 🔥 1. Marcar capitana en el apartado 2
+    // 🔥 Marcar capitana
     data.plantilla.forEach((j, i) => {
         const icono = document.getElementById(`cap${i}`);
         const viene = data.convocadas.includes(j.numero);
@@ -1226,25 +1223,22 @@ function cargarPartidoGuardado() {
             icono.classList.remove("activa");
         }
 
-        // Si no viene → no puede ser capitana
         if (!viene) icono.classList.remove("activa");
     });
 
-    // 2. Cargar plan
+    // 🔥 Cargar plan
     globalPlan = data.plan.map(p => ({
         ...p,
-        // 🔥 2. Reconstruir capitana dentro del plan
         capitana: (data.capitana && p.name.startsWith(data.capitana + " "))
     }));
 
-    // 3. Mostrar tabla
     const contenedor = document.getElementById('resultado');
     contenedor.style.display = "block";
     render(globalPlan);
 
-    // 4. Banner histórico (versión 100% segura)
+    // Banner histórico
     const banner = document.getElementById('banner-historico');
-    banner.innerHTML = ""; // limpiar
+    banner.innerHTML = "";
 
     const div = document.createElement("div");
     div.style = "background:#fff3cd;border:1px solid #ffeeba;padding:8px 12px;border-radius:6px;font-size:14px;color:#856404;display:flex;align-items:center;justify-content:space-between;gap:12px;";
@@ -1261,10 +1255,8 @@ function cargarPartidoGuardado() {
     div.appendChild(btn);
     banner.appendChild(div);
 
-    // 🔥 Listener seguro (el botón YA existe)
     btn.addEventListener("click", resetCompleto);
 
-    // M6.1: resetear selector histórico
     document.getElementById('historySelect').value = "";
 
     contenedor.scrollIntoView({ behavior: 'smooth' });
