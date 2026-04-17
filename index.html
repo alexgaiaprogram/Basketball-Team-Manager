@@ -654,6 +654,22 @@ async function listarEquiposFirebase() {
     console.log("Equipos en Firebase:");
     snapshot.forEach(doc => console.log(" - " + doc.id));
 }
+
+async function mostrarEquiposFirebase() {
+    const uid = auth.currentUser.uid;
+    const snapshot = await db.collection("users")
+                             .doc(uid)
+                             .collection("teams")
+                             .get();
+
+    let lista = "Equipos guardados en Firebase:\n\n";
+
+    snapshot.forEach(doc => {
+        lista += "• " + doc.id + "\n";
+    });
+
+    alert(lista);
+}
      
 // -----------------------------
 // MODAL CREAR / EDITAR PLANTILLA
