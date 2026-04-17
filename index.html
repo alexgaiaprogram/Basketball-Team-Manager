@@ -1197,19 +1197,49 @@ function cargarPartidoGuardado() {
 
     let html = "";
     data.plantilla.forEach((j, i) => {
-        html += '<div class="player-item">' +
-            '<span>' + j.numero + ' ' + j.nombre.toUpperCase() + '</span>' +
-            '<input type="checkbox" id="v' + i + '" ' + (data.convocadas.includes(j.numero) ? "checked" : "") + '>' +
-            '<input type="checkbox" id="t' + i + '" class="t-cb" ' + (data.titulares.includes(j.numero) ? "checked" : "") + '>' +
-            '<input type="checkbox" id="l' + i + '" class="l-cb" ' + (data.lesionadas.includes(j.numero) ? "checked" : "") + '>' +
-        '</div>';
+
+        const viene = data.convocadas.includes(j.numero);
+        const titular = data.titulares.includes(j.numero);
+        const lesionada = data.lesionadas.includes(j.numero);
+
+        html += `
+        <div class="player-item">
+            <span>
+                <span class="cap-icon" id="cap${i}">C</span>
+                ${j.numero} ${j.nombre.toUpperCase()}
+            </span>
+            <input type="checkbox" id="v${i}" ${viene ? "checked" : ""}>
+            <input type="checkbox" id="t${i}" class="t-cb" ${titular ? "checked" : ""}>
+            <input type="checkbox" id="l${i}" class="l-cb" ${lesionada ? "checked" : ""}>
+        </div>`;
     });
 
     cont.innerHTML = html;
     zona.style.display = "block";
 
+    // 🔥 1. Marcar capitana en el apartado 2
+    data.plantilla.forEach((j, i) => {
+        const icono = document.getElementById(`cap${i}`);
+        const viene = data.convocadas.includes(j.numero);
+
+        if (!icono) return;
+
+        if (data.capitana && j.numero === data.capitana) {
+            icono.classList.add("activa");
+        } else {
+            icono.classList.remove("activa");
+        }
+
+        // Si no viene → no puede ser capitana
+        if (!viene) icono.classList.remove("activa");
+    });
+
     // 2. Cargar plan
-    globalPlan = JSON.parse(JSON.stringify(data.plan));
+    globalPlan = data.plan.map(p => ({
+        ...p,
+        // 🔥 2. Reconstruir capitana dentro del plan
+        capitana: (data.capitana && p.name.startsWith(data.capitana + " "))
+    }));
 
     // 3. Mostrar tabla
     const contenedor = document.getElementById('resultado');
@@ -1243,6 +1273,7 @@ function cargarPartidoGuardado() {
 
     contenedor.scrollIntoView({ behavior: 'smooth' });
 }
+
 function borrarPartido(key) {
     if (!key) return;
 
