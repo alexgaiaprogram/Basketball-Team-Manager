@@ -344,57 +344,47 @@ select {
         
     
     body {
-        background-image: url("Imagen%20fondo%20app.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }    
-    #selectorZona {
+    background-image: url("Imagen%20fondo%20app.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}    
+
+#selectorZona {
     background: rgba(255, 255, 255, 0.45);
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
-     #checkboxes {
+
+#checkboxes {
     padding: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
 }
-    #resultado td:first-child {
-        white-space: nowrap;
-    }
 
-    /* ✔ Estructura correcta de filas de jugadoras */
-    .player-item {
-    display: grid;
-    grid-template-columns: 28px 1fr 45px 45px 55px;
-    gap: 5px;
-    align-items: center;
-    padding: 4px 8px;
-    border-bottom: 1px solid #eee;
-    background: #ffffff;
+#resultado td:first-child {
+    white-space: nowrap;
 }
 
-    .player-item span {
-        text-align: left;
-        padding-left: 3px;
-        font-size: 14px;
-    }
+/* ---------------------------------------------------
+   ✔ ESTRUCTURA RESPONSIVE DE FILAS Y CABECERA
+   --------------------------------------------------- */
 
-    .player-item input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        justify-self: center;
-        margin: 0;
-    }
-
-    /* Cabecera alineada con filas */
+/* --- BASE (móviles pequeños) --- */
+.player-item,
 .player-header {
     display: grid;
-    grid-template-columns: 28px 1fr 45px 45px 55px;
-    gap: 5px;
+    grid-template-columns: 26px 1fr 40px 40px 48px;
+    gap: 4px;
     align-items: center;
+    padding: 4px 8px;
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
+}
+
+.player-header {
     padding: 8px;
     background: #0d47a1;
     color: white;
@@ -403,26 +393,71 @@ select {
     font-weight: bold;
     text-align: center;
 }
-        
-    /* Alternancia SOLO en la tabla de checkboxes */
-    #checkboxes .player-item:nth-child(odd) {
-        background-color: #ffffff !important;
-    }
 
-    #checkboxes .player-item:nth-child(even) {
-        background-color: #f3f3f3 !important;
-    }
+.player-item span:nth-child(2),
+.player-header span:nth-child(2) {
+    white-space: nowrap; /* ✔ No se corta el nombre */
+}
 
-    #resultado {
-        background: transparent !important;
-        padding: 0 !important;
-        box-shadow: none !important;
+/* --- Móviles medianos (≥ 380px) --- */
+@media (min-width: 380px) {
+    .player-item,
+    .player-header {
+        grid-template-columns: 28px 1fr 45px 45px 55px;
+        gap: 5px;
     }
+}
 
-    #resultado table {
-        width: 100%;
-        background: white !important;
+/* --- Móviles grandes / tablets (≥ 480px) --- */
+@media (min-width: 480px) {
+    .player-item,
+    .player-header {
+        grid-template-columns: 30px 1fr 55px 55px 65px;
+        gap: 6px;
     }
+}
+
+/* ---------------------------------------------------
+   ✔ ESTILOS DE TEXTO Y CHECKBOXES
+   --------------------------------------------------- */
+
+.player-item span {
+    text-align: left;
+    padding-left: 3px;
+    font-size: 14px;
+}
+
+.player-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    justify-self: center;
+    margin: 0;
+}
+
+/* Alternancia SOLO en la tabla de checkboxes */
+#checkboxes .player-item:nth-child(odd) {
+    background-color: #ffffff !important;
+}
+
+#checkboxes .player-item:nth-child(even) {
+    background-color: #f3f3f3 !important;
+}
+
+#resultado {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+#resultado table {
+    width: 100%;
+    background: white !important;
+}
+
+/* ---------------------------------------------------
+   ✔ ICONO DE CAPITANA
+   --------------------------------------------------- */
+
 .cap-icon {
     display: inline-block;
     width: 18px;
@@ -438,6 +473,7 @@ select {
     margin-right: 0;        /* ✔ No empuja la columna 2 */
     justify-self: center;   /* ✔ Centrado en su columna */
 }
+
 .cap-icon.activa {
     background: #0d47a1;
     color: white;
