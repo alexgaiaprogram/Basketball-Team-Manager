@@ -931,8 +931,11 @@ function marcarCapitana(i) {
 
     // Marcar solo la seleccionada
     const icono = document.getElementById(`cap${i}`);
-    icono.classList.add('activa');
-}    
+    if (icono) {
+        icono.classList.add('activa');
+    }
+}
+
 // -----------------------------
 // LESIONES
 // -----------------------------
