@@ -942,12 +942,10 @@ function marcarCapitana(i) {
 // -----------------------------
 // LESIONES
 // -----------------------------
-    // Candado global para evitar doble ejecución
 let bloqueoLesion = false;
 
 function marcarLesionada(i) {
 
-    // ⛔ Evita que la función se ejecute dos veces seguidas
     if (bloqueoLesion) return;
     bloqueoLesion = true;
     setTimeout(() => bloqueoLesion = false, 50);
@@ -968,17 +966,20 @@ function marcarLesionada(i) {
 
     if (lesionada.checked) {
 
-        // Preguntar si estaba lesionada ANTES del partido
         let antes = prompt("¿La jugadora estaba lesionada ANTES del partido? (Sí / No)");
         antes = antes?.trim().toLowerCase();
 
         if (antes === "sí" || antes === "si") {
 
-            // Lesión ANTES del partido → no viene y no es titular
+            // Lesión ANTES del partido → no viene, no titular, no capitana
             viene.checked = false;
             titular.checked = false;
             viene.disabled = true;
             titular.disabled = true;
+
+            // 🔥 No puede ser capitana
+            const icono = document.getElementById(`cap${i}`);
+            if (icono) icono.classList.remove("activa");
 
             if (j) {
                 j.lesionada = true;
@@ -994,10 +995,9 @@ function marcarLesionada(i) {
 
         if (antes === "no") {
 
-            // Lesión DURANTE el partido → se mantiene titular y viene
+            // Lesión DURANTE el partido
             preguntarParteLesion(i);
 
-            // Preguntar si reajustar automáticamente
             let auto = normalizarSiNo(
                 prompt("¿Quieres que se reajuste el plan automáticamente? (Sí / No / 1 / 0)")
             );
@@ -1029,8 +1029,8 @@ function marcarLesionada(i) {
         contar();
         render(globalPlan);
     }
-}
-
+                    }
+     
 function preguntarParteLesion(i) {
     let parte = prompt("¿En qué parte se lesionó? (1 a 6)");
     parte = parseInt(parte);
