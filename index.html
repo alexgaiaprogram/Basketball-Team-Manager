@@ -903,21 +903,24 @@ async function borrarEquipo() {
 function toggleConv(i) {
     const v = document.getElementById(`v${i}`);
     const t = document.getElementById(`t${i}`);
+
+    // Si no viene → no puede ser titular
     if (!v.checked) {
         t.checked = false;
         t.disabled = true;
     } else {
         t.disabled = false;
     }
-    contar();
-// Si deja de venir → no puede ser capitana
-if (!v.checked) {
-    const icono = document.getElementById(`cap${i}`);
-    icono.classList.remove('activa');
-}
-    
-}
 
+    contar();
+
+    // Si deja de venir → no puede ser capitana
+    if (!v.checked) {
+        const icono = document.getElementById(`cap${i}`);
+        if (icono) icono.classList.remove('activa');
+    }
+}
+     
 function normalizarSiNo(resp) {
     if (!resp) return null;
     resp = resp.trim().toLowerCase();
