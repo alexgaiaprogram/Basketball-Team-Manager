@@ -434,12 +434,12 @@ select {
     text-align: center;
     line-height: 16px;
     font-size: 12px;
-    margin-right: 6px;
     cursor: pointer;
     background: #eee;
     color: #333;
+    margin-right: 0;        /* ✔ No empuja la columna 2 */
+    justify-self: center;   /* ✔ Centrado en su columna */
 }
-
 .cap-icon.activa {
     background: #0d47a1;
     color: white;
