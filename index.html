@@ -569,6 +569,11 @@ select {
 
 <label for="historyDate" class="campo-label">Fecha del partido</label>
 <input type="date" id="historyDate">
+        <button class="btn" style="background:#1976d2; color:white; margin-bottom:10px;"
+        onclick="guardarBorrador()">
+    📝 Guardar borrador de partido
+        </button>
+        
         <button class="btn btn-save" onclick="guardarPartido()">💾 Guardar Plan de Partido</button>
         <select id="historySelect" onchange="cargarPartidoGuardado()">
             <option value="">-- Cargar Partido Histórico --</option>
