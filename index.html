@@ -1197,6 +1197,60 @@ function guardarPartido() {
     actualizarHistorialDropdown();
 }
 
+function guardarBorrador() {
+
+    const rival = document.getElementById('opponentName').value.trim();
+    const fecha = document.getElementById('historyDate').value;
+
+    if (!rival || !fecha || globalPlan.length === 0) {
+        return alert("Faltan datos (rival, fecha) o el plan de partido no está generado.");
+    }
+
+    const key = `${fecha} - ${rival}`;
+
+    // Obtener plantilla actual (número + nombre)
+    const team = document.getElementById('teamSelect').value;
+    const plantilla = teamDB[team] || [];
+
+    // Obtener convocadas, titulares y lesionadas
+    const convocadas = [];
+    const titulares = [];
+    const lesionadas = [];
+
+    plantilla.forEach((j, i) => {
+        if (document.getElementById(`v${i}`)?.checked) convocadas.push(j.numero);
+        if (document.getElementById(`t${i}`)?.checked) titulares.push(j.numero);
+        if (document.getElementById(`l${i}`)?.checked) lesionadas.push(j.numero);
+    });
+
+    // Obtener CAPITANA
+    let capitana = null;
+    plantilla.forEach((j, i) => {
+        const icono = document.getElementById(`cap${i}`);
+        if (icono && icono.classList.contains('activa')) {
+            capitana = j.numero;
+        }
+    });
+
+    // 🔥 Guardar partido como BORRADOR
+    historyDB[key] = {
+        rival,
+        fecha,
+        plantilla,
+        plan: globalPlan,
+        convocadas,
+        titulares,
+        lesionadas,
+        capitana,
+        estado: "borrador"   // ← NUEVO
+    };
+
+    localStorage.setItem('match_history', JSON.stringify(historyDB));
+
+    alert(`Borrador del partido contra ${rival} guardado.`);
+     }
+        
+     
 function actualizarHistorialDropdown() {
     const select = document.getElementById('historySelect');
     if (!select) return;
