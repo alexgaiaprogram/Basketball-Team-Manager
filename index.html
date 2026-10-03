@@ -1317,6 +1317,10 @@ if (data.estado === "finalizado") {
     const teamSelect = document.getElementById('teamSelect');
     teamSelect.value = data.teamName || "";
 
+    // 🔥 Recuperar rival y fecha (PUNTO 2)
+document.getElementById('opponentName').value = data.rival;
+document.getElementById('historyDate').value = data.fecha;
+
     const cont = document.getElementById('checkboxes');
     const zona = document.getElementById('selectorZona');
 
