@@ -1315,7 +1315,7 @@ if (data.estado === "finalizado") {
 }
     
     const teamSelect = document.getElementById('teamSelect');
-    teamSelect.value = "";
+    teamSelect.value = data.teamName || "";
 
     const cont = document.getElementById('checkboxes');
     const zona = document.getElementById('selectorZona');
