@@ -1322,6 +1322,14 @@ if (data.estado === "finalizado") {
 } else {
     document.body.classList.remove("modo-historico");
 }
+    const historyState = document.getElementById('historyState');
+if (historyState) {
+    const estadoLabel = data.estado === "finalizado" ? "FINALIZADO" : "BORRADOR";
+    const estadoColor = data.estado === "finalizado" ? "#28a745" : "#fd7e14";
+
+    historyState.textContent = estadoLabel;
+    historyState.style.background = estadoColor;
+}
     
     const teamSelect = document.getElementById('teamSelect');
     teamSelect.value = data.teamName || "";
