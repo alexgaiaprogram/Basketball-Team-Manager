@@ -1304,8 +1304,13 @@ function cargarPartidoGuardado() {
     const data = historyDB[key];
     if (!data) return;
 
+    // 🔥 Control de estado del partido
+if (data.estado === "finalizado") {
     document.body.classList.add("modo-historico");
-
+} else {
+    document.body.classList.remove("modo-historico");
+}
+    
     const teamSelect = document.getElementById('teamSelect');
     teamSelect.value = "";
 
