@@ -1338,6 +1338,21 @@ if (historyState) {
 document.getElementById('opponentName').value = data.rival;
 document.getElementById('historyDate').value = data.fecha;
 
+const esFinalizado = data.estado === "finalizado";
+
+// Botones a bloquear
+const btnReset = document.getElementById('btnReset');
+const btnValidar = document.getElementById('btnValidarPlan');
+const btnReajustar = document.getElementById('btnReajustar');
+const btnRotacion = document.getElementById('btnGenerarRotacion');
+const btnGuardarBorrador = document.getElementById('btnGuardarBorrador');
+
+[btnReset, btnValidar, btnReajustar, btnRotacion, btnGuardarBorrador].forEach(b => {
+    if (!b) return;
+    b.disabled = esFinalizado;
+    b.style.opacity = esFinalizado ? 0.5 : 1;
+    b.style.cursor = esFinalizado ? "not-allowed" : "pointer";
+});  
     const cont = document.getElementById('checkboxes');
     const zona = document.getElementById('selectorZona');
 
