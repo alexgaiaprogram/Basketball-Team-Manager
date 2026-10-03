@@ -563,7 +563,16 @@ select {
     </div>
 
     <div class="section">
-        <label>3. Historial de Partidos:</label> 
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+    <label>3. Historial de Partidos:</label>
+
+    <!-- 🔥 Estado del partido -->
+    <span id="historyState"
+        style="padding:2px 6px; border-radius:4px; font-size:12px;
+               font-weight:bold; color:white; background:#6c757d;">
+        -
+    </span>
+        </div>
 <label for="opponentName" class="campo-label">Nombre del rival</label>
 <input type="text" id="opponentName" placeholder="Rival">
 
