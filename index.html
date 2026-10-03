@@ -1379,8 +1379,18 @@ document.getElementById('historyDate').value = data.fecha;
     div.style = "background:#fff3cd;border:1px solid #ffeeba;padding:8px 12px;border-radius:6px;font-size:14px;color:#856404;display:flex;align-items:center;justify-content:space-between;gap:12px;";
 
     const texto = document.createElement("span");
-    texto.innerHTML = '📜 <strong>Partido histórico cargado:</strong> ' + key;
 
+const estadoLabel = data.estado === "finalizado" ? "FINALIZADO" : "BORRADOR";
+const estadoColor = data.estado === "finalizado" ? "#28a745" : "#fd7e14"; // verde / naranja
+
+texto.innerHTML = `
+    📜 <strong>Partido histórico cargado:</strong> ${key}
+    &nbsp;&nbsp;
+    <span style="padding:2px 6px;border-radius:4px;font-size:12px;font-weight:bold;color:white;background:${estadoColor};">
+        ${estadoLabel}
+    </span>
+`;
+    
     const btn = document.createElement("button");
     btn.id = "btnResetHistorico";
     btn.textContent = "❌";
