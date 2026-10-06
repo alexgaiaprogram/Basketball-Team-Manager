@@ -1339,6 +1339,10 @@ document.getElementById('opponentName').value = data.rival;
 document.getElementById('historyDate').value = data.fecha;
 
 const esFinalizado = data.estado === "finalizado";
+    if (esFinalizado) {
+    bloquearAccionesFinalizado();
+    }
+    
 
 // Botones a bloquear
 const btnReset = document.getElementById('btnReset');
