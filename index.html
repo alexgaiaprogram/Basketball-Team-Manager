@@ -1963,6 +1963,26 @@ window.validarPlan = function validarPlan() {
     alert(mensaje);
 };
 
+function bloquearAccionesFinalizado() {
+    const funcionesProhibidas = [
+        "reiniciarConfiguracion",
+        "validarPlan",
+        "reajustarPlan",
+        "generarPlan",
+        "guardarBorrador"
+    ];
+
+    funcionesProhibidas.forEach(fnName => {
+        const original = window[fnName];
+        if (typeof original === "function") {
+            window[fnName] = function() {
+                alert("Este partido está FINALIZADO y no permite modificaciones.");
+                return;
+            };
+        }
+    });
+}
+     
 // -----------------------------
 // INICIALIZACIÓN
 // -----------------------------
