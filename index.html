@@ -1257,6 +1257,19 @@ function guardarBorrador() {
         }
     });
 
+// 🔥 Guardar detalle de lesiones
+const lesionesDetalle = [];
+
+globalPlan.forEach(j => {
+    if (j.lesionada) {
+        const dorsal = j.name.split(" ")[0];
+        lesionesDetalle.push({
+            dorsal,
+            desde: j.lesionadaDesde ?? 0
+        });
+    }
+});
+    
     // 🔥 Guardar partido como BORRADOR
     historyDB[key] = {
         rival,
@@ -1268,6 +1281,7 @@ function guardarBorrador() {
         titulares,
         lesionadas,
         capitana,
+        lesionesDetalle,
         estado: "borrador"   // ← NUEVO
     };
 
