@@ -1184,6 +1184,19 @@ function guardarPartido() {
         }
     });
 
+// 🔥 Guardar detalle de lesiones
+const lesionesDetalle = [];
+
+globalPlan.forEach(j => {
+    if (j.lesionada) {
+        const dorsal = j.name.split(" ")[0];
+        lesionesDetalle.push({
+            dorsal,
+            desde: j.lesionadaDesde ?? 0   // 0 = antes del partido
+        });
+    }
+});
+    
     // Guardar TODO el partido
     historyDB[key] = {
         rival,
