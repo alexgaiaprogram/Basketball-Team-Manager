@@ -1091,6 +1091,9 @@ let bloqueoLesion = false;
             } else {
                 // flujo normal → usamos tu función actual
                 parte = preguntarParteLesion(i); // ⚠ asegúrate de que devuelve 0..5
+                if (parte === null) {
+                   lesionada.checked = false;
+                   return;
             }
 
             if (j) {
