@@ -1015,48 +1015,64 @@ function marcarCapitana(i) {
 // -----------------------------
 let bloqueoLesion = false;
 
-function marcarLesionada(i) {
+     function marcarLesionada(i, desdeGuardado = null) {
 
     if (bloqueoLesion) return;
     bloqueoLesion = true;
     setTimeout(() => bloqueoLesion = false, 50);
 
-    const viene = document.getElementById(`v${i}`);
-    const titular = document.getElementById(`t${i}`);
+    const viene     = document.getElementById(`v${i}`);
+    const titular   = document.getElementById(`t${i}`);
     const lesionada = document.getElementById(`l${i}`);
 
     const team = document.getElementById('teamSelect').value;
     if (!team || !teamDB[team]) return;
 
     const plantilla = teamDB[team];
-    const jugadora = plantilla[i];
+    const jugadora  = plantilla[i];
     if (!jugadora) return;
 
     const nombre = `${jugadora.numero} ${jugadora.nombre}`;
     let j = globalPlan ? globalPlan.find(p => p.name === nombre) : null;
 
+    // 🔥 SI SE MARCA LESIÓN
     if (lesionada.checked) {
 
-        let antes = prompt("¿La jugadora estaba lesionada ANTES del partido? (Sí / No)");
-        antes = antes?.trim().toLowerCase();
+        // 👉 1) Determinar si viene de carga (desdeGuardado) o es interactivo
+        let antes;
+        let parteDesde = null;
 
+        if (desdeGuardado !== null) {
+            // viene de partido cargado → no preguntamos nada
+            if (desdeGuardado === 0) {
+                antes = "si";          // lesionada antes del partido
+            } else {
+                antes = "no";          // lesionada durante el partido
+                parteDesde = desdeGuardado;
+            }
+        } else {
+            // flujo normal interactivo → tus prompts de siempre
+            antes = prompt("¿La jugadora estaba lesionada ANTES del partido? (Sí / No)");
+            antes = antes?.trim().toLowerCase();
+        }
+
+        // 👉 2) Lesión ANTES del partido
         if (antes === "sí" || antes === "si") {
 
             // Lesión ANTES del partido → no viene, no titular, no capitana
-            viene.checked = false;
+            viene.checked  = false;
             titular.checked = false;
-            viene.disabled = true;
+            viene.disabled  = true;
             titular.disabled = true;
 
-            // 🔥 No puede ser capitana
             const icono = document.getElementById(`cap${i}`);
             if (icono) icono.classList.remove("activa");
 
             if (j) {
-                j.lesionada = true;
+                j.lesionada      = true;
                 j.lesionadaDesde = 0;
-                j.plan = ['-','-','-','-','-','-'];
-                j.jugados = 0;
+                j.plan           = ['-','-','-','-','-','-'];
+                j.jugados        = 0;
             }
 
             contar();
@@ -1064,17 +1080,48 @@ function marcarLesionada(i) {
             return;
         }
 
+        // 👉 3) Lesión DURANTE el partido
         if (antes === "no") {
 
-            // Lesión DURANTE el partido
-            preguntarParteLesion(i);
+            let parte;
 
-            let auto = normalizarSiNo(
-                prompt("¿Quieres que se reajuste el plan automáticamente? (Sí / No / 1 / 0)")
-            );
+            if (parteDesde !== null) {
+                // viene de carga → ya sabemos desde qué parte
+                parte = parteDesde;
+            } else {
+                // flujo normal → usamos tu función actual
+                parte = preguntarParteLesion(i); // ⚠ asegúrate de que devuelve 0..5
+            }
 
-            if (auto === "si") {
-                reajustarPlan();
+            if (j) {
+                j.lesionada      = true;
+                j.lesionadaDesde = parte;
+
+                // bloquear desde esa parte
+                for (let p = parte; p < 6; p++) {
+                    j.plan[p] = '-';
+                }
+                j.jugados = j.plan.filter(v => v === 'X').length;
+            }
+
+            // bloquear viene/titular igual que antes
+            viene.disabled   = true;
+            titular.disabled = true;
+
+            const icono = document.getElementById(`cap${i}`);
+            if (icono) icono.classList.remove("activa");
+
+            // solo preguntar reajuste automático si NO viene de carga
+            if (desdeGuardado === null) {
+                let auto = normalizarSiNo(
+                    prompt("¿Quieres que se reajuste el plan automáticamente? (Sí / No / 1 / 0)")
+                );
+
+                if (auto === "si") {
+                    reajustarPlan();
+                } else {
+                    render(globalPlan);
+                }
             } else {
                 render(globalPlan);
             }
@@ -1082,25 +1129,30 @@ function marcarLesionada(i) {
             return;
         }
 
-        alert("Respuesta no válida. Escribe Sí o No.");
-        lesionada.checked = false;
+        // 👉 4) Respuesta inválida en flujo interactivo
+        if (desdeGuardado === null) {
+            alert("Respuesta no válida. Escribe Sí o No.");
+            lesionada.checked = false;
+        }
         return;
 
     } else {
 
-        // Se desmarca lesión → reactivar checkboxes
-        viene.disabled = false;
+        // 🔥 Se desmarca lesión → reactivar checkboxes
+        viene.disabled   = false;
         titular.disabled = false;
 
         if (j) {
-            j.lesionada = false;
+            j.lesionada      = false;
             j.lesionadaDesde = null;
+            // aquí podrías restaurar plan si tienes lógica para ello
         }
 
         contar();
         render(globalPlan);
     }
-                    }
+     }
+        
      
 function preguntarParteLesion(i) {
     let parte = prompt("¿En qué parte se lesionó? (1 a 6)");
