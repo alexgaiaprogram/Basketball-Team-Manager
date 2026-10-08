@@ -1485,48 +1485,25 @@ function cargarPartidoGuardado() {
     contenedor.style.display = "block";
     render(globalPlan);
 
-    // 🔥 BLOQUE A — Reenganchar listeners de lesión
+    // 🔥 Reenganchar listeners de lesión (para edición del borrador)
     data.plantilla.forEach((j, i) => {
         const lesionCb = document.getElementById(`l${i}`);
         if (lesionCb) lesionCb.onclick = () => marcarLesionada(i);
     });
 
-    // 🔥 BLOQUE B — Aplicar lógica de lesión al cargar borrador
+    // 🔥 Aplicar lesiones guardadas usando la lógica central
     if (data.lesionesDetalle) {
         data.lesionesDetalle.forEach(info => {
             const idx = data.plantilla.findIndex(j => j.numero === info.dorsal);
             if (idx === -1) return;
 
-            const viene = document.getElementById(`v${idx}`);
-            const titular = document.getElementById(`t${idx}`);
-            const lesionada = document.getElementById(`l${idx}`);
+            const lesionCb = document.getElementById(`l${idx}`);
+            if (!lesionCb) return;
 
-            lesionada.checked = true;
+            lesionCb.checked = true;
 
-            // Bloqueo según tipo de lesión
-            viene.checked = false;
-            viene.disabled = true;
-
-            titular.checked = false;
-            titular.disabled = true;
-
-            const icono = document.getElementById(`cap${idx}`);
-            if (icono) icono.classList.remove("activa");
-
-            const nombre = `${data.plantilla[idx].numero} ${data.plantilla[idx].nombre}`;
-            const jPlan = globalPlan.find(p => p.name === nombre);
-
-            if (jPlan) {
-                jPlan.lesionada = true;
-                jPlan.lesionadaDesde = info.desde;
-
-                // Ajustar plan según parte de lesión
-                for (let p = info.desde; p < 6; p++) {
-                    jPlan.plan[p] = '-';
-                }
-
-                jPlan.jugados = jPlan.plan.filter(v => v === 'X').length;
-            }
+            // 🔥 Aquí se aplica TODA la lógica de lesión correctamente
+            marcarLesionada(idx, info.desde);
         });
     }
 
@@ -1564,9 +1541,8 @@ function cargarPartidoGuardado() {
     document.getElementById('historySelect').value = "";
 
     contenedor.scrollIntoView({ behavior: 'smooth' });
-     }
-     
-     
+}
+
      
 function borrarPartido(key) {
     if (!key) return;
