@@ -1153,37 +1153,18 @@ let bloqueoLesion = false;
     }
      }
         
-     
-function preguntarParteLesion(i) {
+ function preguntarParteLesion(i) {
     let parte = prompt("¿En qué parte se lesionó? (1 a 6)");
     parte = parseInt(parte);
 
-    if (parte >= 1 && parte <= 6) {
-        const team = document.getElementById('teamSelect').value;
-        if (!team || !teamDB[team]) return;
-
-        const plantilla = teamDB[team];
-        const jugadora = plantilla[i];
-        if (!jugadora) return;
-
-        const nombre = `${jugadora.numero} ${jugadora.nombre}`;
-        let j = globalPlan ? globalPlan.find(p => p.name === nombre) : null;
-
-        if (j) {
-            j.lesionada = true;
-            j.lesionadaDesde = parte - 1;
-
-            // Mantener partes anteriores, bloquear desde la parte de lesión
-            for (let p = j.lesionadaDesde; p < 6; p++) {
-                j.plan[p] = '-';
-            }
-
-            j.jugados = j.plan.filter(v => v === 'X').length;
-        }
-    } else {
+    if (isNaN(parte) || parte < 1 || parte > 6) {
         alert("Parte no válida.");
+        return null; // ⚠ marcarLesionada debe detectar esto
     }
-}
+
+    return parte - 1; // convertir 1–6 → 0–5
+ }
+     
 
 // -----------------------------
 // CONTAR CONVOCADAS / TITULARES
