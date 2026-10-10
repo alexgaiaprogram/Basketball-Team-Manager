@@ -1224,12 +1224,19 @@ function guardarPartido() {
 // 🔥 Guardar detalle de lesiones
 const lesionesDetalle = [];
 
-globalPlan.forEach(j => {
-    if (j.lesionada) {
-        const dorsal = j.name.split(" ")[0];
+plantilla.forEach((j, i) => {
+
+    const lesionCb = document.getElementById(`l${i}`);
+
+    if (lesionCb && lesionCb.checked) {
+
+        const jugadorPlan = globalPlan.find(
+            p => p.name.startsWith(j.numero + " ")
+        );
+
         lesionesDetalle.push({
-            dorsal,
-            desde: j.lesionadaDesde ?? 0   // 0 = antes del partido
+            dorsal: j.numero,
+            desde: jugadorPlan?.lesionadaDesde ?? 0
         });
     }
 });
@@ -1297,12 +1304,19 @@ function guardarBorrador() {
 // 🔥 Guardar detalle de lesiones
 const lesionesDetalle = [];
 
-globalPlan.forEach(j => {
-    if (j.lesionada) {
-        const dorsal = j.name.split(" ")[0];
+plantilla.forEach((j, i) => {
+
+    const lesionCb = document.getElementById(`l${i}`);
+
+    if (lesionCb && lesionCb.checked) {
+
+        const jugadorPlan = globalPlan.find(
+            p => p.name.startsWith(j.numero + " ")
+        );
+
         lesionesDetalle.push({
-            dorsal,
-            desde: j.lesionadaDesde ?? 0
+            dorsal: j.numero,
+            desde: jugadorPlan?.lesionadaDesde ?? 0
         });
     }
 });
