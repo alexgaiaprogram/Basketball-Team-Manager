@@ -1492,6 +1492,16 @@ function cargarPartidoGuardado() {
         });
     }
 
+const v = document.getElementById(`v${idx}`);
+const t = document.getElementById(`t${idx}`);
+
+console.log(
+    "POST CARGA",
+    idx,
+    v?.disabled,
+    t?.disabled
+);
+    
     // Banner histórico
     const banner = document.getElementById('banner-historico');
     banner.innerHTML = "";
