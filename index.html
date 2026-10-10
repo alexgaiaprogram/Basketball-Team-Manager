@@ -1017,9 +1017,12 @@ let bloqueoLesion = false;
 
      function marcarLesionada(i, desdeGuardado = null) {
 
+    if (desdeGuardado === null) {
     if (bloqueoLesion) return;
+
     bloqueoLesion = true;
     setTimeout(() => bloqueoLesion = false, 50);
+}
 
     const viene     = document.getElementById(`v${i}`);
     const titular   = document.getElementById(`t${i}`);
