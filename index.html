@@ -1477,6 +1477,8 @@ function cargarPartidoGuardado() {
     });
 
 console.log("LESIONES GUARDADAS:", data.lesionesDetalle);
+
+alert("LESIONES GUARDADAS: " + JSON.stringify(data.lesionesDetalle));
     
     // 🔥 Aplicar lesiones guardadas usando la lógica central
     if (data.lesionesDetalle) {
